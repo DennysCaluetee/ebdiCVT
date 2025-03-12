@@ -53,8 +53,23 @@
             text-align: center;
             font-size: 15px;
             box-shadow: 4px 4px 10px rgb(0, 0, 0);
-            transition: transform 0.5s ease;
+            transition: transform 0.5s ease; /* Efeito de transição */
             max-width: 250px; /* Para evitar que os cards fiquem muito largos */
+            transform-origin: center; /* Garante que o efeito seja centrado */
+        }
+
+        /* Animação de tremor */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-3px); }
+            100% { transform: translateX(0); }
+        }
+
+        /* Aplicar a animação de tremor quando o percentual for 100% */
+        .shake {
+            animation: shake 1.0s ease-in-out; /* Aplica a animação de tremor */
         }
 
         /* Barra de Progresso */
@@ -73,6 +88,16 @@
             font-weight: bold;
             text-align: center;
             border-radius: 3px;
+        }
+
+        /* Estilo para as telas */
+        .tela {
+            display: none; /* As telas estão ocultas inicialmente */
+        }
+
+        /* A primeira tela é visível inicialmente */
+        #tela1 {
+            display: block;
         }
     </style>
 </head>
@@ -211,6 +236,9 @@
 
                     const card = document.createElement('div');
                     card.className = 'card';
+                    if (percentual >= 100) {
+                        card.classList.add('shake'); // Adiciona a classe shake quando atingir 100%
+                    }
                     card.innerHTML = ` 
                         <h3>${nome}</h3>
                         <p>Meta: <span>${meta}</span></p>
@@ -234,7 +262,7 @@
             indiceTela = (indiceTela + 1) % telas.length;
             document.getElementById(telas[indiceTela]).style.display = 'block';
             atualizarDadosTela(indiceTela);
-            setTimeout(alternarTelas, 18000);
+            setTimeout(alternarTelas, 5000);
         }
 
         document.addEventListener("DOMContentLoaded", () => {
